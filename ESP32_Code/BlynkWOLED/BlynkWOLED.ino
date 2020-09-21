@@ -39,8 +39,8 @@ void checkPin()
 void setup()
 {
   // Debug console
-  //Serial.begin(9600);
-  Serial.begin(115200);
+  Serial.begin(9600);
+  //Serial.begin(115200);
 
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
     Serial.println(F("SSD1306 allocation failed"));
@@ -73,7 +73,7 @@ void loop()
   checkPin();
 
   if (pinValue == 1) {
-    delay(100);
+    delay(500);
 
     updateContent();//*Currently empty: ESP32 I2C to dsPIC to retrieve power, cost, volts, & amps
     pushContent();
@@ -93,7 +93,8 @@ void loop()
   }
 }
 
-void showUpperRight() {
+void showUpperRight() 
+{
   char wifiStrength[12] = "Wi-Fi: ";
   String numberString = String(getStrength(8));
   int i = 1;
@@ -109,7 +110,8 @@ void showUpperRight() {
   display.println(wifiStrength);
 }
 
-void showContent() {
+void showContent() 
+{
   char powerArray[10];
   char costArray[10];
   char voltsArray[10];
@@ -145,7 +147,8 @@ void showContent() {
   display.println(ampsString);
 }
 
-void loadingSymbol() {
+void loadingSymbol()
+{
   display.clearDisplay();
   display.setCursor(0, 0);
   display.println("Loading");
@@ -157,7 +160,8 @@ void loadingSymbol() {
   delay(5000);
 }
 
-int getStrength(int points){
+int getStrength(int points)
+{
     long rssi = 0;
     long averageRSSI = 0;
     
@@ -170,10 +174,23 @@ int getStrength(int points){
    return averageRSSI;
 }
 
-void pushContent(){
+void pushContent()
+{
   Blynk.virtualWrite(V1, power[z]);
   Blynk.virtualWrite(V2, cost);
   Blynk.virtualWrite(V3, volts);
   Blynk.virtualWrite(V4, amps);
   z = (z + 1) % 3;
+}
+
+void updateContent()
+{
+  Wire.requestFrom(0x07, 1);
+
+  while(Wire.available())
+  {
+    char c = Wire.read();
+    Serial.print(c);
+  }
+  delay(500);
 }
