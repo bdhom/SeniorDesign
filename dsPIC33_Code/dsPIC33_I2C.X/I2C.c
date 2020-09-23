@@ -6,20 +6,54 @@
 //*Add functions according to the different states the I2C slave is in
 //*Add functions to create smoother experience when dealing with I2C slave
 
+unsigned char datain = 0;
+unsigned char dataout = 0;
+unsigned char temp;
+
 void I2CSlaveInit(void)
 {
     //Control registers
     //I2C Enable; Idle Continue; Clock Released; Support Disabled; 7-Bit Address;
     //Slew Rate Enabled; Enable I/O; General Call Enabled; Clock Stretch Disabled
     I2C1CON1 = 0xC180;
-    //No Stop Condition Interrupt; No Start Condition Interrupt; Overwrite Disabled; 
+    //Stop Condition Interrupt; Start Condition Interrupt; Overwrite Disabled; 
     //300ns SDA Hold Time; Collision Detect Disabled; Address Holding Disabled;
     //Data Holding Disabled
-    I2C1CON2 = 0x0048; //0x0068
+    I2C1CON2 = 0x0068; //0x0068
     
     //Slave address and mask registers
     I2C1ADD = 0x07;
     I2C1MSK = 0x00;
+    
+    I2C1BRG = 0x01;
+}
+
+void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void )
+{
+    if( (I2C1STATbits.R_W == 0) && (I2C1STATbits.D_A == 0) ) // Device address matched (write)
+    {
+        temp = I2C1RCV; //dummy read to clear RCV buffer
+        I2C1CON1bits.SCLREL = 1;
+    }
+    else if( (I2C1STATbits.R_W == 0) && (I2C1STATbits.D_A == 1) ) //check for data (write)
+    {
+        datain = I2C1RCV; //transfer data from RCV buffer
+        I2C1CON1bits.SCLREL = 1;
+    }
+     else if( (I2C1STATbits.R_W == 1) && (I2C1STATbits.D_A == 0) ) // Device address matched (read)
+    {
+        temp = I2C1RCV;
+        I2C1TRN = dataout++;
+        I2C1CON1bits.SCLREL = 1;
+    }
+    else if ( (I2C1STATbits.R_W == 1) && (I2C1STATbits.D_A == 1) && (I2C1STATbits.ACKSTAT == 0 ))
+    {
+        temp = I2C1RCV;
+        I2C1TRN = dataout++;
+        I2C1CON1bits.SCLREL = 1; 
+    }
+
+    _SI2C1IF = 0; //clear I2C1 Slave interrupt flag 
 }
 
 //Functions to use control registers (I2C1CON1 & I2C1CON2)

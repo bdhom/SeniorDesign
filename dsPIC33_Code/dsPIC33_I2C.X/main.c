@@ -14,22 +14,6 @@
 #include "interrupt.h"
 #include "I2C.h"
 
-//*Move into I2C.h/.c after verifying interrupt works
-void __attribute__((__interrupt__,no_auto_psv)) _I2CInterrupt()
-{
-    if(IFS1bits.SI2C1IF)
-    {
-        IFS1bits.SI2C1IF = 0;
-        
-        if (I2CReceivedRestart())
-        {
-            while(!I2CAddressReceived());
-            I2CTransmitRegister(0x53);
-            _LATA1 ^= 1;
-        }
-    }
-}
-
 int main(void)
 {
     enableInterrupts();
@@ -39,7 +23,7 @@ int main(void)
     
     while(1)
     {
-        
+        _LATA1 = 1;
     }
     
     return 1;

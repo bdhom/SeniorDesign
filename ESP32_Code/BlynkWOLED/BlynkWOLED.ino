@@ -72,10 +72,11 @@ void loop()
   Blynk.run();
   checkPin();
 
+  updateContent();//*Currently empty: ESP32 I2C to dsPIC to retrieve power, cost, volts, & amps
+
   if (pinValue == 1) {
     delay(500);
 
-    updateContent();//*Currently empty: ESP32 I2C to dsPIC to retrieve power, cost, volts, & amps
     pushContent();
     
     display.clearDisplay();

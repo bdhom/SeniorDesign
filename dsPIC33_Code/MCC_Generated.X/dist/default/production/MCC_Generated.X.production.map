@@ -97,9 +97,9 @@ section                    address   length (PC units)   length (bytes) (dec)
 .text                        0x200               0x370           0x528  (1320)
 .text                        0x570               0x25c           0x38a  (906)
 .dinit                       0x7cc                0x4a            0x6f  (111)
-.text                        0x816                0xcc           0x132  (306)
+.text                        0x816                0xc2           0x123  (291)
 
-                 Total "program" memory used (bytes):          0xa53  (2643) 8%
+                 Total "program" memory used (bytes):          0xa44  (2628) 8%
 
 
 "data" Memory  [Origin = 0x1000, Length = 0x1000]
@@ -155,8 +155,8 @@ External Symbols in Program Memory (by address):
                   0x000816                  _CLOCK_Initialize
                   0x000870                  _SYSTEM_Initialize
                   0x000884                  _PIN_MANAGER_Initialize
-                  0x0008aa                  _INTERRUPT_Initialize
-                  0x0008dc                  _main
+                  0x0008c2                  _INTERRUPT_Initialize
+                  0x0008d2                  _main
                   0x005780                  __FSEC.sec
 
 External Symbols in Program Memory (by name):
@@ -172,7 +172,7 @@ External Symbols in Program Memory (by name):
                   0x0005e2                  _I2C1_TransmitProcess
                   0x0005b2                  _I2C1_WritePointerGet
                   0x00059e                  _I2C1_WritePointerSet
-                  0x0008aa                  _INTERRUPT_Initialize
+                  0x0008c2                  _INTERRUPT_Initialize
                   0x000884                  _PIN_MANAGER_Initialize
                   0x0007c4                  _RESET_CauseClearAll
                   0x0006b8                  _RESET_GetCause
@@ -191,7 +191,7 @@ External Symbols in Program Memory (by name):
                   0x000248                  __data_init_extended
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0008dc                  _main
+                  0x0008d2                  _main
 
 Memory Configuration
 
@@ -366,7 +366,7 @@ __FALTREG
  .debug_abbrev    0x000480        0x1aa build/default/production/mcc_generated_files/i2c1.o
  .debug_abbrev    0x00062a         0x59 build/default/production/mcc_generated_files/pin_manager.o
 
-.debug_line       0x000000        0xb3f
+.debug_line       0x000000        0xb3e
  *(.debug_line)
  .debug_line      0x000000        0x173 build/default/production/mcc_generated_files/reset.o
  .debug_line      0x000173        0x172 build/default/production/mcc_generated_files/system.o
@@ -374,9 +374,9 @@ __FALTREG
  .debug_line      0x000455        0x134 build/default/production/mcc_generated_files/clock.o
  .debug_line      0x000589        0x113 build/default/production/main.o
  .debug_line      0x00069c         0x1a build/default/production/mcc_generated_files/mcc.o
- .debug_line      0x0006b6        0x135 build/default/production/mcc_generated_files/interrupt_manager.o
- .debug_line      0x0007eb        0x21b build/default/production/mcc_generated_files/i2c1.o
- .debug_line      0x000a06        0x139 build/default/production/mcc_generated_files/pin_manager.o
+ .debug_line      0x0006b6        0x134 build/default/production/mcc_generated_files/interrupt_manager.o
+ .debug_line      0x0007ea        0x21b build/default/production/mcc_generated_files/i2c1.o
+ .debug_line      0x000a05        0x139 build/default/production/mcc_generated_files/pin_manager.o
 
 .debug_frame      0x000000        0x582
  *(.debug_frame)
@@ -1722,16 +1722,16 @@ __c30_signature
 .dinit            0x0007cc         0x4a
  .dinit           0x0007cc         0x4a data_init
 
-.text             0x000816         0xcc
+.text             0x000816         0xc2
  .text            0x000816         0x3c build/default/production/mcc_generated_files/clock.o
                   0x000816                  _CLOCK_Initialize
  .text            0x000852         0x32 build/default/production/mcc_generated_files/system.o
                   0x000870                  _SYSTEM_Initialize
  .text            0x000884         0x26 build/default/production/mcc_generated_files/pin_manager.o
                   0x000884                  _PIN_MANAGER_Initialize
- .text            0x0008aa         0x1a build/default/production/mcc_generated_files/interrupt_manager.o
-                  0x0008aa                  _INTERRUPT_Initialize
- .text            0x0008c4         0x18 build/default/production/mcc_generated_files/traps.o
-                  0x0008c4                  _TRAPS_halt_on_error
- .text            0x0008dc          0x6 build/default/production/main.o
-                  0x0008dc                  _main
+ .text            0x0008aa         0x18 build/default/production/mcc_generated_files/traps.o
+                  0x0008aa                  _TRAPS_halt_on_error
+ .text            0x0008c2         0x10 build/default/production/mcc_generated_files/interrupt_manager.o
+                  0x0008c2                  _INTERRUPT_Initialize
+ .text            0x0008d2          0x6 build/default/production/main.o
+                  0x0008d2                  _main

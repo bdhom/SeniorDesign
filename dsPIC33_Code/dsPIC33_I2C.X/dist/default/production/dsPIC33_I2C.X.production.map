@@ -89,18 +89,20 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x150           0x1f8  (504)
-.text                        0x350               0x1ae           0x285  (645)
+.text                        0x200               0x19a           0x267  (615)
+.text                        0x39a               0x1b4           0x28e  (654)
+.dinit                       0x54e                 0x8             0xc  (12)
 
-                 Total "program" memory used (bytes):          0x47d  (1149) 3%
+                 Total "program" memory used (bytes):          0x501  (1281) 3%
 
 
 "data" Memory  [Origin = 0x1000, Length = 0x1000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
+.nbss                       0x1000                   0             0x4  (4)
 
-                 Total "data" memory used (bytes):              0  (0) 
+                 Total "data" memory used (bytes):            0x4  (4) <1%
 
 
 Dynamic Memory Usage
@@ -108,88 +110,100 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x1000                              0x1000  (4096)
+stack                       0x1004                               0xffc  (4092)
 
-                 Maximum dynamic memory (bytes):         0x1000  (4096)
+                 Maximum dynamic memory (bytes):          0xffc  (4092)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
+
+External Symbols in Data Memory (by address):
+
+                    0x1000                  _datain
+                    0x1001                  _dataout
+                    0x1002                  _temp
+
+External Symbols in Data Memory (by name):
+
+                    0x1000                  _datain
+                    0x1001                  _dataout
+                    0x1002                  _temp
 
 External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x00023c                  __psv_init
-                  0x000248                  __data_init_extended
                   0x000248                  __data_init
-                  0x0002fa                  __I2CInterrupt
-                  0x00034a                  __DefaultInterrupt
-                  0x000350                  _I2CSlaveInit
-                  0x000364                  _I2CEnable
-                  0x00036c                  _I2CDisable
-                  0x000374                  _I2CSlaveClockHold
-                  0x00037e                  _I2CSlaveClockRelease
-                  0x000388                  _I2CAddressSet
-                  0x000394                  _I2CMaskSet
-                  0x0003a0                  _I2CEnableAddressHolding
-                  0x0003a8                  _I2CDisableAddressHolding
-                  0x0003b0                  _I2CEnableDataHolding
-                  0x0003b8                  _I2CDisableDataHolding
-                  0x0003c0                  _I2CReceivedACK
-                  0x0003d6                  _I2CAcknowledgeInProgress
-                  0x0003ec                  _I2CAddressReceived
-                  0x000402                  _I2CReceiveOverflow
-                  0x000418                  _I2CReceivedData
-                  0x00042e                  _I2CReceivedStop
-                  0x000442                  _I2CReceivedRestart
-                  0x000456                  _I2CRead
-                  0x00046a                  _I2CReceiveFull
-                  0x00047e                  _I2CTransmitInProgress
-                  0x000492                  _I2CTransmitRegister
-                  0x00049e                  _I2CReadReceiveRegister
-                  0x0004a8                  _setupPins
-                  0x0004d0                  _enableInterrupts
-                  0x0004d8                  _disableInterrupts
-                  0x0004e0                  _initializeInterrupts
-                  0x0004f2                  _main
+                  0x000248                  __data_init_extended
+                  0x0002fa                  __SI2C1Interrupt
+                  0x000394                  __DefaultInterrupt
+                  0x00039a                  _I2CSlaveInit
+                  0x0003b2                  _I2CEnable
+                  0x0003ba                  _I2CDisable
+                  0x0003c2                  _I2CSlaveClockHold
+                  0x0003cc                  _I2CSlaveClockRelease
+                  0x0003d6                  _I2CAddressSet
+                  0x0003e2                  _I2CMaskSet
+                  0x0003ee                  _I2CEnableAddressHolding
+                  0x0003f6                  _I2CDisableAddressHolding
+                  0x0003fe                  _I2CEnableDataHolding
+                  0x000406                  _I2CDisableDataHolding
+                  0x00040e                  _I2CReceivedACK
+                  0x000424                  _I2CAcknowledgeInProgress
+                  0x00043a                  _I2CAddressReceived
+                  0x000450                  _I2CReceiveOverflow
+                  0x000466                  _I2CReceivedData
+                  0x00047c                  _I2CReceivedStop
+                  0x000490                  _I2CReceivedRestart
+                  0x0004a4                  _I2CRead
+                  0x0004b8                  _I2CReceiveFull
+                  0x0004cc                  _I2CTransmitInProgress
+                  0x0004e0                  _I2CTransmitRegister
+                  0x0004ec                  _I2CReadReceiveRegister
+                  0x0004f6                  _setupPins
+                  0x00051e                  _enableInterrupts
+                  0x000526                  _disableInterrupts
+                  0x00052e                  _initializeInterrupts
+                  0x000540                  _main
                   0x005780                  __FSEC.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x0003d6                  _I2CAcknowledgeInProgress
-                  0x0003ec                  _I2CAddressReceived
-                  0x000388                  _I2CAddressSet
-                  0x00036c                  _I2CDisable
-                  0x0003a8                  _I2CDisableAddressHolding
-                  0x0003b8                  _I2CDisableDataHolding
-                  0x000364                  _I2CEnable
-                  0x0003a0                  _I2CEnableAddressHolding
-                  0x0003b0                  _I2CEnableDataHolding
-                  0x000394                  _I2CMaskSet
-                  0x000456                  _I2CRead
-                  0x00049e                  _I2CReadReceiveRegister
-                  0x00046a                  _I2CReceiveFull
-                  0x000402                  _I2CReceiveOverflow
-                  0x0003c0                  _I2CReceivedACK
-                  0x000418                  _I2CReceivedData
-                  0x000442                  _I2CReceivedRestart
-                  0x00042e                  _I2CReceivedStop
-                  0x000374                  _I2CSlaveClockHold
-                  0x00037e                  _I2CSlaveClockRelease
-                  0x000350                  _I2CSlaveInit
-                  0x00047e                  _I2CTransmitInProgress
-                  0x000492                  _I2CTransmitRegister
-                  0x00034a                  __DefaultInterrupt
+                  0x000424                  _I2CAcknowledgeInProgress
+                  0x00043a                  _I2CAddressReceived
+                  0x0003d6                  _I2CAddressSet
+                  0x0003ba                  _I2CDisable
+                  0x0003f6                  _I2CDisableAddressHolding
+                  0x000406                  _I2CDisableDataHolding
+                  0x0003b2                  _I2CEnable
+                  0x0003ee                  _I2CEnableAddressHolding
+                  0x0003fe                  _I2CEnableDataHolding
+                  0x0003e2                  _I2CMaskSet
+                  0x0004a4                  _I2CRead
+                  0x0004ec                  _I2CReadReceiveRegister
+                  0x0004b8                  _I2CReceiveFull
+                  0x000450                  _I2CReceiveOverflow
+                  0x00040e                  _I2CReceivedACK
+                  0x000466                  _I2CReceivedData
+                  0x000490                  _I2CReceivedRestart
+                  0x00047c                  _I2CReceivedStop
+                  0x0003c2                  _I2CSlaveClockHold
+                  0x0003cc                  _I2CSlaveClockRelease
+                  0x00039a                  _I2CSlaveInit
+                  0x0004cc                  _I2CTransmitInProgress
+                  0x0004e0                  _I2CTransmitRegister
+                  0x000394                  __DefaultInterrupt
                   0x005780                  __FSEC.sec
-                  0x0002fa                  __I2CInterrupt
+                  0x0002fa                  __SI2C1Interrupt
                   0x000248                  __data_init
                   0x000248                  __data_init_extended
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0004d8                  _disableInterrupts
-                  0x0004d0                  _enableInterrupts
-                  0x0004e0                  _initializeInterrupts
-                  0x0004f2                  _main
-                  0x0004a8                  _setupPins
+                  0x000526                  _disableInterrupts
+                  0x00051e                  _enableInterrupts
+                  0x00052e                  _initializeInterrupts
+                  0x000540                  _main
+                  0x0004f6                  _setupPins
 
 Memory Configuration
 
@@ -251,7 +265,7 @@ LOAD c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x150
+.text             0x000200        0x19a
  *(.init)
  .init            0x000200         0x48 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_extendedep.o)
                   0x000200                  __resetPRI
@@ -263,18 +277,18 @@ LOAD c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0002fa         0x50 build/default/production/main.o
-                  0x0002fa                  __I2CInterrupt
- .isr             0x00034a          0x4 default_isr
-                  0x00034a                  __DefaultInterrupt
+ .isr.text        0x0002fa         0x9a build/default/production/I2C.o
+                  0x0002fa                  __SI2C1Interrupt
+ .isr             0x000394          0x4 default_isr
+                  0x000394                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x00034e          0x2 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normalep.Leo)
-                  0x00034e                  __crt_start_mode
-                  0x00034e                  __crt_start_mode_normal
+                  0x000398          0x2 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normalep.Leo)
+                  0x000398                  __crt_start_mode
+                  0x000398                  __crt_start_mode_normal
 
 usercode
  *(usercode)
@@ -326,40 +340,40 @@ __FALTREG
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x1893
+.debug_info       0x000000       0x19d3
  *(.debug_info)
- .debug_info      0x000000        0x3a0 build/default/production/main.o
- .debug_info      0x0003a0        0x919 build/default/production/interrupt.o
- .debug_info      0x000cb9        0x915 build/default/production/I2C.o
- .debug_info      0x0015ce        0x2c5 build/default/production/pins.o
+ .debug_info      0x000000        0x1ef build/default/production/main.o
+ .debug_info      0x0001ef        0x919 build/default/production/interrupt.o
+ .debug_info      0x000b08        0xc06 build/default/production/I2C.o
+ .debug_info      0x00170e        0x2c5 build/default/production/pins.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x2ae
+.debug_abbrev     0x000000        0x2bd
  *(.debug_abbrev)
- .debug_abbrev    0x000000         0xc9 build/default/production/main.o
- .debug_abbrev    0x0000c9         0xb4 build/default/production/interrupt.o
- .debug_abbrev    0x00017d         0xd8 build/default/production/I2C.o
- .debug_abbrev    0x000255         0x59 build/default/production/pins.o
+ .debug_abbrev    0x000000         0x8c build/default/production/main.o
+ .debug_abbrev    0x00008c         0xb4 build/default/production/interrupt.o
+ .debug_abbrev    0x000140        0x124 build/default/production/I2C.o
+ .debug_abbrev    0x000264         0x59 build/default/production/pins.o
 
-.debug_line       0x000000        0x4c3
+.debug_line       0x000000        0x4d4
  *(.debug_line)
- .debug_line      0x000000        0x12d build/default/production/main.o
- .debug_line      0x00012d        0x121 build/default/production/interrupt.o
- .debug_line      0x00024e        0x159 build/default/production/I2C.o
- .debug_line      0x0003a7        0x11c build/default/production/pins.o
+ .debug_line      0x000000        0x117 build/default/production/main.o
+ .debug_line      0x000117        0x121 build/default/production/interrupt.o
+ .debug_line      0x000238        0x180 build/default/production/I2C.o
+ .debug_line      0x0003b8        0x11c build/default/production/pins.o
 
-.debug_frame      0x000000        0x366
+.debug_frame      0x000000        0x34c
  *(.debug_frame)
- .debug_frame     0x000000         0x6c build/default/production/main.o
- .debug_frame     0x00006c         0x62 build/default/production/interrupt.o
- .debug_frame     0x0000ce        0x26a build/default/production/I2C.o
- .debug_frame     0x000338         0x2e build/default/production/pins.o
+ .debug_frame     0x000000         0x2e build/default/production/main.o
+ .debug_frame     0x00002e         0x62 build/default/production/interrupt.o
+ .debug_frame     0x000090        0x28e build/default/production/I2C.o
+ .debug_frame     0x00031e         0x2e build/default/production/pins.o
 
-.debug_str        0x000000         0x7e
+.debug_str        0x000000         0x87
  *(.debug_str)
- .debug_str       0x000000         0x12 build/default/production/main.o
- .debug_str       0x000012         0x33 build/default/production/interrupt.o
- .debug_str       0x000045         0x39 build/default/production/I2C.o
+ .debug_str       0x000000          0x9 build/default/production/main.o
+ .debug_str       0x000009         0x33 build/default/production/interrupt.o
+ .debug_str       0x00003c         0x4b build/default/production/I2C.o
 
 .debug_loc
  *(.debug_loc)
@@ -368,16 +382,16 @@ __FALTREG
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x2a8
+                  0x000000        0x2ca
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x2d build/default/production/main.o
+                  0x000000         0x1b build/default/production/main.o
  .debug_pubnames
-                  0x00002d         0x56 build/default/production/interrupt.o
+                  0x00001b         0x56 build/default/production/interrupt.o
  .debug_pubnames
-                  0x000083        0x205 build/default/production/I2C.o
+                  0x000071        0x239 build/default/production/I2C.o
  .debug_pubnames
-                  0x000288         0x20 build/default/production/pins.o
+                  0x0002aa         0x20 build/default/production/pins.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1502,32 +1516,39 @@ END GROUP
 OUTPUT(dist/default/production/dsPIC33_I2C.X.production.elf elf32-pic30)
 LOAD /CW/_FSEC
 LOAD default_isr
+LOAD data_init
 
 .debug_pubtypes
-                  0x000060        0x1ce
+                  0x000060        0x1eb
  .debug_pubtypes
-                  0x000060         0x59 build/default/production/main.o
+                  0x000060         0x3c build/default/production/main.o
  .debug_pubtypes
-                  0x0000b9         0xbc build/default/production/interrupt.o
+                  0x00009c         0xbc build/default/production/interrupt.o
  .debug_pubtypes
-                  0x000175         0x9a build/default/production/I2C.o
+                  0x000158         0xd4 build/default/production/I2C.o
  .debug_pubtypes
-                  0x00020f         0x1f build/default/production/pins.o
+                  0x00022c         0x1f build/default/production/pins.o
 
 __c30_signature
-                  0x00022e         0x24
+                  0x00024b         0x24
  __c30_signature
-                  0x00022e          0x6 build/default/production/main.o
+                  0x00024b          0x6 build/default/production/main.o
  __c30_signature
-                  0x000234          0x6 build/default/production/interrupt.o
+                  0x000251          0x6 build/default/production/interrupt.o
  __c30_signature
-                  0x00023a          0x6 build/default/production/I2C.o
+                  0x000257          0x6 build/default/production/I2C.o
  __c30_signature
-                  0x000240          0x6 build/default/production/pins.o
+                  0x00025d          0x6 build/default/production/pins.o
  __c30_signature
-                  0x000246          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_extendedep.o)
+                  0x000263          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(crt0_extendedep.o)
  __c30_signature
-                  0x00024c          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(data_init_extended.o)
+                  0x000269          0x6 c:/program files/microchip/xc16/v1.50/bin/bin/../../lib\liblega-pic30-elf.a(data_init_extended.o)
+
+.nbss               0x1000          0x4
+ .nbss              0x1000          0x4 build/default/production/I2C.o
+                    0x1000                  _datain
+                    0x1001                  _dataout
+                    0x1002                  _temp
 
 .config_CTXT2     0x0057c4          0x2
  .config_CTXT2    0x0057c4          0x2 build/default/production/main.o
@@ -1581,36 +1602,44 @@ __c30_signature
 .config_BSLIM     0x005790          0x2
  .config_BSLIM    0x005790          0x2 build/default/production/main.o
 
-.text             0x000350        0x1ae
- .text            0x000350        0x158 build/default/production/I2C.o
-                  0x000350                  _I2CSlaveInit
-                  0x000364                  _I2CEnable
-                  0x00036c                  _I2CDisable
-                  0x000374                  _I2CSlaveClockHold
-                  0x00037e                  _I2CSlaveClockRelease
-                  0x000388                  _I2CAddressSet
-                  0x000394                  _I2CMaskSet
-                  0x0003a0                  _I2CEnableAddressHolding
-                  0x0003a8                  _I2CDisableAddressHolding
-                  0x0003b0                  _I2CEnableDataHolding
-                  0x0003b8                  _I2CDisableDataHolding
-                  0x0003c0                  _I2CReceivedACK
-                  0x0003d6                  _I2CAcknowledgeInProgress
-                  0x0003ec                  _I2CAddressReceived
-                  0x000402                  _I2CReceiveOverflow
-                  0x000418                  _I2CReceivedData
-                  0x00042e                  _I2CReceivedStop
-                  0x000442                  _I2CReceivedRestart
-                  0x000456                  _I2CRead
-                  0x00046a                  _I2CReceiveFull
-                  0x00047e                  _I2CTransmitInProgress
-                  0x000492                  _I2CTransmitRegister
-                  0x00049e                  _I2CReadReceiveRegister
- .text            0x0004a8         0x28 build/default/production/pins.o
-                  0x0004a8                  _setupPins
- .text            0x0004d0         0x22 build/default/production/interrupt.o
-                  0x0004d0                  _enableInterrupts
-                  0x0004d8                  _disableInterrupts
-                  0x0004e0                  _initializeInterrupts
- .text            0x0004f2          0xc build/default/production/main.o
-                  0x0004f2                  _main
+.ivt._SI2C1Interrupt
+                  0x000034          0x2
+ .ivt._SI2C1Interrupt
+                  0x000034          0x2 build/default/production/I2C.o
+
+.text             0x00039a        0x1b4
+ .text            0x00039a        0x15c build/default/production/I2C.o
+                  0x00039a                  _I2CSlaveInit
+                  0x0003b2                  _I2CEnable
+                  0x0003ba                  _I2CDisable
+                  0x0003c2                  _I2CSlaveClockHold
+                  0x0003cc                  _I2CSlaveClockRelease
+                  0x0003d6                  _I2CAddressSet
+                  0x0003e2                  _I2CMaskSet
+                  0x0003ee                  _I2CEnableAddressHolding
+                  0x0003f6                  _I2CDisableAddressHolding
+                  0x0003fe                  _I2CEnableDataHolding
+                  0x000406                  _I2CDisableDataHolding
+                  0x00040e                  _I2CReceivedACK
+                  0x000424                  _I2CAcknowledgeInProgress
+                  0x00043a                  _I2CAddressReceived
+                  0x000450                  _I2CReceiveOverflow
+                  0x000466                  _I2CReceivedData
+                  0x00047c                  _I2CReceivedStop
+                  0x000490                  _I2CReceivedRestart
+                  0x0004a4                  _I2CRead
+                  0x0004b8                  _I2CReceiveFull
+                  0x0004cc                  _I2CTransmitInProgress
+                  0x0004e0                  _I2CTransmitRegister
+                  0x0004ec                  _I2CReadReceiveRegister
+ .text            0x0004f6         0x28 build/default/production/pins.o
+                  0x0004f6                  _setupPins
+ .text            0x00051e         0x22 build/default/production/interrupt.o
+                  0x00051e                  _enableInterrupts
+                  0x000526                  _disableInterrupts
+                  0x00052e                  _initializeInterrupts
+ .text            0x000540          0xe build/default/production/main.o
+                  0x000540                  _main
+
+.dinit            0x00054e          0x8
+ .dinit           0x00054e          0x8 data_init

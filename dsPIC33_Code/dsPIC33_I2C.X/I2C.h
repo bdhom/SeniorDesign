@@ -6,6 +6,8 @@
 
 void I2CSlaveInit(void);
 
+void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void );
+
 void I2CEnable(void);
 
 void I2CDisable(void);
