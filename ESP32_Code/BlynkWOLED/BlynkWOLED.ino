@@ -13,9 +13,9 @@
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-char auth[] = "wVqLBlWW1v8qSdj-H5Nt_1fjVV1o7O3C";
-char ssid[] = "ItBurnsWhenIP";
-char pass[] = "legitRHINO323";
+char auth[] = "Auth_Key_Here";//wVqLBlWW1v8qSdj-H5Nt_1fjVV1o7O3C
+char ssid[] = "SSID_Here";
+char pass[] = "Pass_Here";
 
 int pinValue = -1;
 
