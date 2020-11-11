@@ -23,7 +23,7 @@ int main(void)
     
     while(1)
     {
-        _LATA1 = 1;
+        
     }
     
     return 1;

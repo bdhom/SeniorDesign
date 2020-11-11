@@ -23,5 +23,5 @@ void updateContent()
     int c = Wire.read();
     Serial.println(c);
   }
-  delay(500);
+  //delay(500);
 }

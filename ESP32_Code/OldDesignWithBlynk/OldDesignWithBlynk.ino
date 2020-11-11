@@ -13,18 +13,21 @@
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-char auth[] = "wVqLBlWW1v8qSdj-H5Nt_1fjVV1o7O3C";
-char ssid[] = "ItBurnsWhenIP";
-char pass[] = "legitRHINO323";
+//*Input necessary Blynk and WiFi info
+char auth[] = "AUTHENTICATION HERE";
+char ssid[] = "SSID HERE";
+char pass[] = "PASSWORD HERE";
 
 int pinValue = -1;
 
 //*Hard-coded values to show that blynk will reflect
-float power[3] = {56, 61, 65};
-float cost = 89;
-float volts = 77;
-float amps = 0.1;
+//*Will also need to add power factor
 int z = 0;
+float power[3] = {56, 61, 65};
+float cost = 0;
+float volts[3] = {119, 120, 121};
+float amps[3] = {5.0, 5.1, 5.0};
+float powerNum = 0;
 
 BLYNK_WRITE(V0) // V0 is the number of Virtual Pin  
 {
@@ -38,11 +41,9 @@ void checkPin()
 
 void setup()
 {
-  // Debug console
   Serial.begin(9600);
-  //Serial.begin(115200);
 
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3D for 128x64
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);
   }
@@ -64,19 +65,19 @@ void setup()
   //Blynk.begin(auth, ssid, pass, IPAddress(192,168,1,100), 8080);
 
   // Make pin 2 default HIGH, and attach INT to our handler
-  pinMode(2, INPUT_PULLUP);
+  pinMode(2, INPUT_PULLUP); //*When integrated into circuit will need to be output high w/ no pullup
 }
 
 void loop()
 {
   Blynk.run();
   checkPin();
+  updateContent();
 
-  updateContent();//*Currently empty: ESP32 I2C to dsPIC to retrieve power, cost, volts, & amps
-
-  if (pinValue == 1) {
+  if (pinValue != -1)
+  {
     delay(500);
-
+    
     pushContent();
     
     display.clearDisplay();
@@ -84,12 +85,13 @@ void loop()
     showContent();
     display.display(); 
   }
-  else {
+  else
+  {
     delay(100);
   
     display.clearDisplay();
-    display.setCursor(0,0);
-    display.println("Off");
+    showUpperRight();
+    showErrorMessage();
     display.display();
   }
 }
@@ -120,8 +122,8 @@ void showContent()
 
   dtostrf(power[z], 4, 3, powerArray);
   dtostrf(cost, 4, 2, costArray);
-  dtostrf(volts, 4, 3, voltsArray);
-  dtostrf(amps, 4, 3, ampsArray);
+  dtostrf(volts[z], 4, 3, voltsArray);
+  dtostrf(amps[z], 4, 3, ampsArray);
 
   String powerString = powerArray;
   String costString = "$";
@@ -146,6 +148,12 @@ void showContent()
   display.println(voltsString);
   display.setCursor(55,40);
   display.println(ampsString);
+}
+
+void showErrorMessage()
+{
+  display.setCursor(18,24);
+  display.println("Please input cost");
 }
 
 void loadingSymbol()
@@ -177,14 +185,18 @@ int getStrength(int points)
 
 void pushContent()
 {
-  Blynk.virtualWrite(V1, power[z]);
+  powerNum = volts[z] * amps[z]; //*Multiplied by power factor
+  cost = ((pinValue / 10000) * powerNum) / 1000;
+  cost = (cost > 0.0f)? cost : 0.0f;
+  
+  Blynk.virtualWrite(V1, powerNum);
   Blynk.virtualWrite(V2, cost);
-  Blynk.virtualWrite(V3, volts);
-  Blynk.virtualWrite(V4, amps);
+  Blynk.virtualWrite(V3, volts[z]);
+  Blynk.virtualWrite(V4, amps[z]);
   z = (z + 1) % 3;
 }
 
-void updateContent()
+void updateContent() //*Need to get content of current and voltage from dsPIC33
 {
   Wire.requestFrom(0x07, 1);
 
