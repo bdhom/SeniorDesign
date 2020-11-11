@@ -26,6 +26,7 @@ char pass[] = "PASSWORD HERE";
 int pinValue = -1;
 
 //*Hard-coded values to show that blynk will reflect
+//*Will also need to add power factor
 int z = 0;
 float power[3] = {56, 61, 65};
 float cost = 0;
@@ -95,6 +96,8 @@ void loop()
   }
   else
   {
+    delay(100);
+    
     display.clearDisplay();
     showUpperRight();
     showErrorMessage();
