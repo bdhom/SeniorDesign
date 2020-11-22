@@ -1,11 +1,3 @@
-//Edit File
-/*
- * File:   main.c
- * Author: bjdho
- *
- * Created on November 13, 2020, 3:24 PM
- */
-
 #define _XTAL_FREQ 3685000UL
 #define FCY (_XTAL_FREQ/2)
 
