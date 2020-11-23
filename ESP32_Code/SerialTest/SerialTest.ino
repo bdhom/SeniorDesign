@@ -85,10 +85,13 @@ void updateContent()
 {  
   int No_Comm_Num = 0;
   bool NoComm;
-  
+  int time_delay = 1;
+
+  int result = 0;
   while(convType < 1027 && No_Comm_Num < 10000)
   {
     NoComm = true;
+
     Wire.requestFrom(0x07, 2);
   
     while(Wire.available())
@@ -99,6 +102,7 @@ void updateContent()
     
       int c = a<<8;
       c += b;
+
       
       if((convType % 256) == 0)
       {
@@ -111,6 +115,7 @@ void updateContent()
           case 1:
             Serial.println(' ');
             Serial.println("Current 1");
+            time_delay = 250;
             break;
           case 2:
             Serial.println(' ');
@@ -142,7 +147,22 @@ void updateContent()
 
       NoComm = false;
       convType++;
+      result = c;
+      
+      char rand_string[4];
+
+      itoa(result, rand_string, 10);
+    
+      display.clearDisplay();
+      display.setCursor(0,16);
+      display.println("Last ADC Value:");
+      display.println(rand_string);
+      display.display();
+
+      delay(time_delay);
     }
+    
+  
 
     if(NoComm) No_Comm_Num++;
   }

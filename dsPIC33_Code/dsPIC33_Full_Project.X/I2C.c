@@ -103,7 +103,7 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void )
             else
             {
                 I2C_Change = true;
-                //LATBbits.LATB4 ^= 1;
+                LATBbits.LATB4 ^= 1;
             }
             
             I2C1CON1bits.SCLREL = 1; 

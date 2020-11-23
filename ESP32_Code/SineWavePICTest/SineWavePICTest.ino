@@ -235,7 +235,7 @@ void pfCalculations()
   PF = cos(2.0 * PI * frequency * pf_time);
 }
 
-void printResults(void)
+void printResults()
 {
   Serial.println(" ");
   Serial.println("Voltage:");
