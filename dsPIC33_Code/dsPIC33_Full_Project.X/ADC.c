@@ -93,7 +93,7 @@ void __attribute__((__interrupt__,auto_psv)) _AD1Interrupt(void)
             Change_Conversion = true;
         }
 
-        LATAbits.LATA2 ^= 1;
+        //LATAbits.LATA2 ^= 1;
         
         IFS0bits.AD1IF = 0; 
     }

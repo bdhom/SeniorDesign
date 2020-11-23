@@ -38,9 +38,9 @@ double Real_Power = 0;
 double Cost = 0;
 
 //*Input necessary Blynk and WiFi info
-char auth[] = "wVqLBlWW1v8qSdj-H5Nt_1fjVV1o7O3C";
-char ssid[] = "ItBurnsWhenIP";
-char pass[] = "legitRHINO323";
+char auth[] = "AUTHENTICATIONS HERE";
+char ssid[] = "SSID HERE";
+char pass[] = "PASSWORD HERE";
 
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
