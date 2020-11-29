@@ -11,7 +11,7 @@
 #define SCREEN_HEIGHT 64  // OLED display height, in pixels
 #define SAMPLE_SIZE 256
 #define PF_RESULT_SIZE 3  
-#define DC_OFFSET 338     //338 steps for 1.65 V offset //*change to 2.5 V offset (512 from ADC)
+#define DC_OFFSET 512     //338 steps for 1.65 V offset //*change to 2.5 V offset (512 from ADC)
 
 const double resolution = 5.0 / 1024.0;
 const double pf_clk = 2.0 / 3685000.0;
@@ -19,7 +19,7 @@ const double frequency = 60.0;
 
 //*Eventually utilize a factor to multiply rms voltage and currents to get actual rms values
 const double voltage_factor = 80.0;
-const double current_factor = 250.0;
+const double current_factor = 10.0;
 
 int conv_type = 0;
 int pinValue = -1;
@@ -75,7 +75,9 @@ void setup()
   } while(count < 1);
   display.stopscroll();
 
-  Blynk.begin(auth, ssid, pass);
+  //*Comment below line out if stuck at loading on oled. Will get rid of Blynk functionality
+  //*Also comment out Blynk.run, checkPin, and pushContent in main loop
+  //Blynk.begin(auth, ssid, pass);
   // You can also specify server:
   //Blynk.begin(auth, ssid, pass, "blynk-cloud.com", 80);
   //Blynk.begin(auth, ssid, pass, IPAddress(192,168,1,100), 8080);
@@ -86,9 +88,10 @@ void setup()
 
 void loop()
 {
-  Blynk.run();
-  
-  checkPin();
+  //Blynk.run();
+  //checkPin();
+
+  Serial.println("At top of loop");
   
   updateContent();
 
@@ -102,10 +105,10 @@ void loop()
   {
     costCalculations();
     
-    pushContent();
+    //pushContent();
     
     display.clearDisplay();
-    showUpperRight();
+    //showUpperRight();
     showContent();
     display.display(); 
   }
@@ -114,7 +117,7 @@ void loop()
     delay(100);
   
     display.clearDisplay();
-    showUpperRight();
+    //showUpperRight();
     showContent();
     //showErrorMessage();
     display.display();
@@ -335,30 +338,38 @@ void rmsCalculations()
     for(int j = 0; j < SAMPLE_SIZE; j++)
     {
       double not_quantized = ((double)*(adc_values + j)) - DC_OFFSET;
+      //not_quantized *= *factor;
       double quantized_value = not_quantized * resolution;
 
-//      Serial.print("Quantized ");
-//      Serial.print(j);
-//      Serial.print(":");
-//      printDouble(quantized_value,1000);
+      //Serial.println("Quantized ");
+      //Serial.print(j);
+      //Serial.print(":");
+      //printDouble(quantized_value,1000);
+      //Serial.println(*(adc_values + j));
+      //printDouble(not_quantized, 1000);
 
       quantized_value *= quantized_value;
       summed_value += quantized_value;
     }
 
-//    Serial.print("Summed Value:");
-//    printDouble(summed_value,1000);
+    //Serial.println(DC_OFFSET);
+
+    Serial.print("Summed Value:");
+    printDouble(summed_value,1000);
     
     double mean = summed_value / (double)SAMPLE_SIZE;
 
-//    Serial.print("Meaned Value:");
-//    printDouble(mean,1000);
+    Serial.print("Meaned Value:");
+    printDouble(mean,1000);
     
     *rms_value = sqrt(mean);
     *rms_value *= *factor;
+
+    Serial.print("RMS Value:");
+    printDouble(*rms_value,1000);
   }
 
-  RMS_Total_Current = (RMS_Current1 + RMS_Current2 + RMS_Current3) / 1000.0;
+  RMS_Total_Current = RMS_Current1 + RMS_Current2 + RMS_Current3;
 }
 
 void powerCalculations()
