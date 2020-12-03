@@ -8,11 +8,12 @@ extern bool Change_Conversion;
 extern uint16_t Conversion_Num;
 
 uint16_t *ADC_Results;
+uint8_t Discharge_Count = 0;
 
 void ADCInit(void) //*May need to set negative end of op amp //*Check CON4 control registers
 {
    AD1CON1bits.ADON = 0;    //Turn ADC Off
-   AD1CON1bits.AD12B = 0;   //Select 10-bit mode  
+   AD1CON1bits.AD12B = 1;   //Select 10-bit mode  
    AD1CON1bits.FORM = 0;    //Integer Format
    AD1CON1bits.SSRC = 0;    //Manual Conversion on sample bit clear 
    AD1CON1bits.SIMSAM = 0;  //Disable Simultaneous Sampling
@@ -23,7 +24,7 @@ void ADCInit(void) //*May need to set negative end of op amp //*Check CON4 contr
    AD1CON2bits.CHPS = 0;    //Select 1-channel mode (CH0)
    AD1CON2bits.ALTS = 0;    //Disable Alternate Input Selection
    AD1CON3bits.ADRC = 0;    //Conv. clock from system clock
-   AD1CON3bits.ADCS =10;    //TAD=TCY 
+   AD1CON3bits.ADCS =50;    //TAD=TCY 
    AD1CON3bits.SAMC = 30;
    
    AD1CON1bits.ADSIDL = 1;  //Discontinue in idle mode
@@ -84,16 +85,27 @@ void __attribute__((__interrupt__,auto_psv)) _AD1Interrupt(void)
     {
         *(ADC_Results + Conversion_Num) = ADC1BUF0;
         
+//        if(Conversion_Num == 255)
+//        {
+//            LATAbits.LATA2 ^= 1;
+//        }
+        
         if(Conversion_Num < (SAMPLE_SIZE - 1))
         {
-            Conversion_Num++;
+            if(Discharge_Count > 5)
+            {
+                Conversion_Num++;
+            }
+            else
+            {
+                Discharge_Count++;
+            }
         }
         else 
         {
             Change_Conversion = true;
+            Discharge_Count = 0;
         }
-
-        //LATAbits.LATA2 ^= 1;
         
         IFS0bits.AD1IF = 0; 
     }

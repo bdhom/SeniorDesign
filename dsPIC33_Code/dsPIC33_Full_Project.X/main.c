@@ -7,6 +7,7 @@
 #include "xc.h"
 #include <stdint.h>
 #include <stdbool.h>
+#include <libpic30.h>
 #include "pins.h"
 #include "globals.h"
 #include "timers.h"
@@ -24,12 +25,12 @@ volatile uint16_t I2C_Comm_Num = 0;
 bool PF_Calculations = false;
 uint8_t Conversion_Type = 0;
 uint8_t I2C_Type = 0;
-uint16_t ADC_Voltage[SAMPLE_SIZE];
-uint16_t ADC_Current1[SAMPLE_SIZE];
-uint16_t ADC_Current2[SAMPLE_SIZE];
-uint16_t ADC_Current3[SAMPLE_SIZE];
+volatile uint16_t ADC_Voltage[SAMPLE_SIZE];
+volatile uint16_t ADC_Current1[SAMPLE_SIZE];
+volatile uint16_t ADC_Current2[SAMPLE_SIZE];
+volatile uint16_t ADC_Current3[SAMPLE_SIZE];
 uint16_t PF_Timings[PF_SAMPLES];
-uint16_t PF_Avg[3];
+volatile uint16_t PF_Avg[3];
 
 int main(void) 
 {
@@ -112,7 +113,7 @@ int main(void)
         if(I2C_Change)
         {
             I2C_Type++;
-            I2C_Type = (I2C_Type < 6)? I2C_Type : 0;
+            I2C_Type = (I2C_Type < 2)? I2C_Type : 0;
             
             I2CTimerStop();
             
@@ -120,27 +121,30 @@ int main(void)
             {
                 case 1:
                     I2CEnable();
-                    ChangeI2CSamples(SAMPLE_SIZE);
-                    ChangeI2CPointer(ADC_Voltage);
-                    I2CTimerStart();
+                    //ChangeI2CSamples(SAMPLE_SIZE);
+                    //ChangeI2CPointer(0);
+                    //I2CTimerStart();
                     break;
-                case 2:
-                    ChangeI2CPointer(ADC_Current1);
-                    I2CTimerStart();
-                    break;
-                case 3:
-                    ChangeI2CPointer(ADC_Current2);
-                    I2CTimerStart();
-                    break;
-                case 4:
-                    ChangeI2CPointer(ADC_Current3);
-                    I2CTimerStart();
-                    break;
-                case 5:       //For PF timer
-                    ChangeI2CSamples(3);
-                    ChangeI2CPointer(PF_Avg);
-                    I2CTimerStart();
-                    break;
+//                case 2:
+//                    ChangeI2CSamples(SAMPLE_SIZE);
+//                    //ChangeI2CPointer(1);
+//                    //I2CTimerStart();
+//                    break;
+//                case 3:
+//                    ChangeI2CSamples(SAMPLE_SIZE);
+//                    //ChangeI2CPointer(2);
+//                    //I2CTimerStart();
+//                    break;
+//                case 4:
+//                    ChangeI2CSamples(SAMPLE_SIZE);
+//                    //ChangeI2CPointer(3);
+//                    //I2CTimerStart();
+//                    break;
+//                case 5:       //For PF timer
+//                    ChangeI2CSamples(3);
+//                    //ChangeI2CPointer(4);
+//                    //I2CTimerStart();
+//                    break;
                 default:
                     I2CDisable();
                     Change_Conversion = true;
@@ -154,8 +158,10 @@ int main(void)
         //For when I2C isn't communicating
         if(I2C_Fault)
         {
-            I2C_Change = true;
-            I2C_Type = 5;
+//            I2C_Change = true;
+//            I2C_Type = 5;
+            
+            //LATBbits.LATB4 ^= 1;
             
             I2C_Fault = false;
         }

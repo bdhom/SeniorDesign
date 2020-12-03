@@ -17,13 +17,13 @@ void __attribute__((__interrupt__,no_auto_psv)) _T1Interrupt(void)
     }
 }
 
-void ADCTimerInit(void) //64 samples/cycle or ~3.839 ksps
+void ADCTimerInit(void) //32 samples/cycle or ~1.920 ksps
 {
     //EQN: T = (1/F) * PR1 * pre-scaler
     TMR1 = 0x00;
     
     //Period
-    PR1 = 0x0078;
+    PR1 = 0x00F0;
     
     //Timer control register
     T1CONbits.TON = 0;          //Timer off
