@@ -1,4 +1,3 @@
-//*Edit File
 #include "xc.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -84,11 +83,6 @@ void __attribute__((__interrupt__,auto_psv)) _AD1Interrupt(void)
     if(IFS0bits.AD1IF == 1)
     {
         *(ADC_Results + Conversion_Num) = ADC1BUF0;
-        
-//        if(Conversion_Num == 255)
-//        {
-//            LATAbits.LATA2 ^= 1;
-//        }
         
         if(Conversion_Num < (SAMPLE_SIZE - 1))
         {

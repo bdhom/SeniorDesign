@@ -9,8 +9,6 @@
 //*Add functions to create smoother experience when dealing with I2C slave
 
 extern bool I2C_Change;
-extern uint16_t I2C_Comm_Num;
-
 extern uint16_t ADC_Voltage[SAMPLE_SIZE];
 extern uint16_t ADC_Current1[SAMPLE_SIZE];
 extern uint16_t ADC_Current2[SAMPLE_SIZE];
@@ -18,7 +16,6 @@ extern uint16_t ADC_Current3[SAMPLE_SIZE];
 extern uint16_t PF_Avg[3];
 
 unsigned char temp;
-uint16_t Size;
 uint16_t *I2C_Value;
 uint8_t array;
 uint8_t i;
@@ -67,18 +64,6 @@ void I2CSlaveInit(void)
     IPC4bits.SI2C1IP = 6;
 }
 
-//void ChangeI2CPointer(uint16_t change)
-//{
-//    //I2C_Value = pointer;
-//    
-//    array = change;
-//}
-
-void ChangeI2CSamples(uint16_t samples)
-{
-    Size = samples;
-}
-
 void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void )
 {
     if(_SI2C1IF == 1)
@@ -86,17 +71,6 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void )
         if( (I2C1STATbits.R_W == 0) && (I2C1STATbits.D_A == 0) ) // Device address matched (write)
         {
             temp = I2C1RCV;
-            
-//            if(arrayWrite == true)
-//            {
-//                array = temp;
-//                arrayWrite = false;
-//            }
-//            else
-//            {
-//                i = temp;
-//                arrayWrite = true;
-//            }
             
             I2C1CON1bits.SCLREL = 1;
         }
@@ -140,7 +114,6 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void )
                     I2C1TRN = PF_Avg[i] >> 8;
                     break;
             }
-            //I2C1TRN = *(I2C_Value + I2C_Comm_Num) >> 8; //data out
             
             I2C1CON1bits.SCLREL = 1;
         }
@@ -167,22 +140,7 @@ void __attribute__ ( ( interrupt, no_auto_psv ) ) _SI2C1Interrupt ( void )
                     I2C1TRN = PF_Avg[i];
                     break;
             }
-            //I2C1TRN = *(I2C_Value + I2C_Comm_Num); //data out
             
-//            if(*(I2C_Value + I2C_Comm_Num) == 0)
-//            {
-//                LATAbits.LATA2 ^= 1;
-//            }
-            
-//            if(I2C_Comm_Num < 0 || I2C_Comm_Num > 255)
-//            {
-//                LATBbits.LATB4 ^= 1;
-//            }
-
-//            if(I2C_Comm_Num < (Size - 1))
-//            {
-//                I2C_Comm_Num++;
-//            }
             if(array == 4 && i == 2)    //Last byte of data from PF_Avg
             {
                 I2C_Change = true;
