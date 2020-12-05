@@ -13,7 +13,7 @@
 #define PF_RESULT_SIZE 3
 
 //Debugging purposes
-bool debugging = true;  //false is faster
+bool debugging = false;  //false is faster
 double highest_overall_voltage = 0;
 double highest_overall_current1 = 0;
 double highest_overall_current2 = 0;
@@ -26,8 +26,8 @@ const double pf_clk = 2.0 / 3685000.0;
 const double frequency = 60.0;
 
 //*Eventually utilize a factor to multiply rms voltage and currents to get actual rms values
-const double voltage_factor = 80.0;
-const double current_factor = 10.0;
+const double voltage_factor = 112.3;
+const double current_factor = 11.03;
 
 int pinValue = -1;
 int conv_type = 0;
@@ -433,6 +433,11 @@ void calculateRMS(int *adc_array,int array_size,double offset,double *RMS,double
   *RMS *= factor;
 }
 
+void loadDetection(double *RMS)
+{
+  *RMS = (*RMS > 0.1)? *RMS : 0.0;
+}
+
 void rmsCalculations()
 {
   calculateOffset(voltage,SAMPLE_SIZE,&voltage_offset);
@@ -444,6 +449,10 @@ void rmsCalculations()
   calculateRMS(current1,SAMPLE_SIZE,current1_offset,&RMS_Current1,current_factor);
   calculateRMS(current2,SAMPLE_SIZE,current2_offset,&RMS_Current2,current_factor);
   calculateRMS(current3,SAMPLE_SIZE,current3_offset,&RMS_Current3,current_factor);
+
+  loadDetection(&RMS_Current1);
+  loadDetection(&RMS_Current2);
+  loadDetection(&RMS_Current3);
 
   RMS_Total_Current = RMS_Current1 + RMS_Current2 + RMS_Current3;
 }
