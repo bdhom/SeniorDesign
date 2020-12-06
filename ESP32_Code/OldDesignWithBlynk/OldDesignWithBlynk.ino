@@ -26,8 +26,8 @@ const double pf_clk = 2.0 / 3685000.0;
 const double frequency = 60.0;
 
 //*Eventually utilize a factor to multiply rms voltage and currents to get actual rms values
-const double voltage_factor = 112.3;
-const double current_factor = 11.03;
+const double voltage_factor = 143.2;
+const double current_factor = 11.22;
 
 int pinValue = -1;
 int conv_type = 0;
